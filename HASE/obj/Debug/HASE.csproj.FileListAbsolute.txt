@@ -1,0 +1,9 @@
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\bin\Debug\HASE.exe.config
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\bin\Debug\HASE.exe
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\bin\Debug\HASE.pdb
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.MainWindow.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.Properties.Resources.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.exe
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.pdb

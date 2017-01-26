@@ -1,0 +1,14 @@
+C:\Users\The Mirandas\Desktop\HASE\HASE\bin\Release\HASE.exe.config
+C:\Users\The Mirandas\Desktop\HASE\HASE\obj\Release\HASE.exe
+C:\Users\The Mirandas\Desktop\HASE\HASE\obj\Release\HASE.pdb
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\bin\Release\HASE.exe.config
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\bin\Release\HASE.exe
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\bin\Release\HASE.pdb
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.MainWindow.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.MessageBox.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.Properties.Resources.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.UnpackWindow.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.exe
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.pdb
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Release\HASE.csprojResolveAssemblyReference.cache
