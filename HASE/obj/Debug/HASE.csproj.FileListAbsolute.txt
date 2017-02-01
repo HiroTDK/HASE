@@ -7,3 +7,5 @@ C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.Properties.R
 C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.csproj.GenerateResource.Cache
 C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.exe
 C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.pdb
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.MessageBox.resources
+C:\Users\User\Desktop\ROM Hacking\Projects\HASE\HASE\obj\Debug\HASE.UnpackWindow.resources

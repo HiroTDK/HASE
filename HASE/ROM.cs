@@ -15,13 +15,13 @@ namespace HASE
 			this.pathROM = path;
 			if (auto)
 			{
-				ReadROM(auto, silent);
+				ReadROM(log, auto, silent);
 			}
 		}
 
 		public string pathROM;
 		
-		public void ReadROM(bool auto, bool silent)
+		public void ReadROM(bool log, bool auto, bool silent)
 		{
 			FileInfo fi = new FileInfo(pathROM);                                // Open info on the file.
 			if (fi.Length < 136)                                                // Is file long enough to have header?
@@ -92,15 +92,14 @@ namespace HASE
 				return;
 			}
 			
-			NDSHeader nh = new NDSHeader();                                     // Open new NDSHeader structure.
-			nh.HeaderArray = new byte[hSize];                                   // Expand byte array to hold entire header.
-			fs.Position = 0;                                                    // Move to beginning of the header.
-			fs.Read(nh.HeaderArray, 0, hSize);                                  // Read entire header to byte array.
-			nh.ReadHeader();
+			byte[] hBytes = new byte[hSize];
+			fs.Position = 0;
+			fs.Read(hBytes, 0, hSize);
+			NDSHeader header = new NDSHeader(hBytes, log, auto, silent);
 		}
 	}
 
-	class NDSHeader
+	public class NDSHeader : HASE.BaseClass
 	{
 		// / <summary>
 		// / This is the header data for NDS ROMs, excluding DSi enhanced ROMs.
@@ -180,12 +179,27 @@ namespace HASE
 		ushort NintendoLogoCRC;     // 0x15C
 		ushort HeaderCRC;           // 0x15E
 
-		public void ReadHeader()
+		public NDSHeader(byte[] header, bool log, bool auto, bool silent)
 		{
-			if (HeaderArray.Length == 0 || HeaderArray.Length > 448)     // No length or not minimum header length.
+			HeaderArray = header;
+			if (auto)
 			{
-				return;
+				ReadHeader(log, auto, silent);
 			}
+		}
+
+		public void ReadHeader(bool log, bool auto, bool silent)
+		{
+			// Start
+			GameTitle = System.Text.Encoding.UTF8.GetString(HeaderArray, 0, 10);
+			GameCode = System.Text.Encoding.UTF8.GetString(HeaderArray, 12, 4);
+			MakerCode = System.Text.Encoding.UTF8.GetString(HeaderArray, 16, 2);
+			UnitCode = HeaderArray[18];
+			EncryptionSeed = HeaderArray[19];
+			DeviceCapaciy = HeaderArray[20];
+			RegionCode = HeaderArray[29];
+			Version = HeaderArray[30];
+			InternalFlags = HeaderArray[31];
 		}
 
 		public void OutputStuff()

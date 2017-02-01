@@ -68,6 +68,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ROM.cs" />
+    <Compile Include="Unpacker.cs" />
     <Compile Include="UnpackWindow.cs">
       <SubType>Form</SubType>
     </Compile>
