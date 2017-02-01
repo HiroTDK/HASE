@@ -232,14 +232,15 @@ namespace HASE
 				if (bytes.Length < 136)
 				{
 					result = CustomMessageBox.Show(
-					"File Size Error",
-					"This file is too short.",
-					"This file isn't long enough to define a header."
-						+ " Header size is 4 bytes long and stored at byte 132 (0x84). This file is only "
-						+ bytes.Length + " (0x" + bytes.Length.ToString("X") + ") bytes long.",
-					365, 200,
-					new List<string>(),
-					new List<DialogResult>());
+						"File Size Error",
+						"This file is too short.",
+						"This file isn't long enough to define a header."
+							+ " Header size is 4 bytes long and stored at byte 132 (0x84). This file is only "
+							+ bytes.Length + " (0x" + bytes.Length.ToString("X") + ") bytes long.",
+						365, 200,
+						new List<string>(),
+						new List<DialogResult>());
+
 					return;
 				}
 
@@ -287,6 +288,7 @@ namespace HASE
 								365, 225,
 								new List<string>() { },
 								new List<DialogResult>() { });
+
 							return;
 						}
 					}
@@ -313,6 +315,7 @@ namespace HASE
 					365, 235,
 					new List<string>(),
 					new List<DialogResult>());
+
 				return;
 			}
 
@@ -362,7 +365,32 @@ namespace HASE
 
 						if (delete == DialogResult.Yes)
 						{
-							Directory.Delete(path, true);
+							try
+							{
+								Directory.Delete(path, true);
+							}
+							catch (Exception exception)
+							{
+								string[] titles =
+								{
+									"What have you done?",
+									"You realy stepped in it now.",
+									"YOU BLEW IT UP!",
+									"I can't believe you've done this.",
+									"How did you manage this?",
+									"You're literally the worst."
+								};
+
+								DialogResult dialog = CustomMessageBox.Show(
+									titles[new Random().Next(titles.Count())],
+									exception.GetType().ToString(),
+									exception.Message,
+									365, 155,
+									new List<string>(),
+									new List<DialogResult>());
+
+								return;
+							}
 						}
 						else
 						{
@@ -422,7 +450,32 @@ namespace HASE
 						
 						if (delete == DialogResult.Yes)
 						{
-							Directory.Delete(path, true);
+							try
+							{
+								Directory.Delete(path, true);
+							}
+							catch (Exception exception)
+							{
+								string[] titles =
+								{
+									"What have you done?",
+									"You realy stepped in it now.",
+									"YOU BLEW IT UP!",
+									"I can't believe you've done this.",
+									"How did you manage this?",
+									"You're literally the worst."
+								};
+
+								DialogResult dialog = CustomMessageBox.Show(
+									titles[new Random().Next(titles.Count())],
+									exception.GetType().ToString(),
+									exception.Message,
+									365, 155,
+									new List<string>(),
+									new List<DialogResult>());
+
+								return;
+							}
 						}
 						else
 						{
@@ -454,6 +507,7 @@ namespace HASE
 					365, 235,
 					new List<string>(),
 					new List<DialogResult>());
+
 				return;
 			}
 
@@ -467,15 +521,33 @@ namespace HASE
 					365, 235,
 					new List<string>(),
 					new List<DialogResult>());
+
 				return;
 			}
 
 			try
 			{
-				Unpacker u = new Unpacker(file, path, true);
 			}
-			catch (Exception)
+			catch (Exception exception)
 			{
+				string[] titles =
+				{
+					"What have you done?",
+					"You realy stepped in it now.",
+					"YOU BLEW IT UP!",
+					"I can't believe you've done this.",
+					"How did you manage this?",
+					"You're literally the worst."
+				};
+
+				DialogResult result = CustomMessageBox.Show(
+					titles[new Random().Next(titles.Count())],
+					exception.GetType().ToString(),
+					exception.Message,
+					365, 155,
+					new List<string>(),
+					new List<DialogResult>());
+
 				return;
 			}
 		}
