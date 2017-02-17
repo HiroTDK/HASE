@@ -65,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClass.cs" />
+    <Compile Include="FileNARC.cs" />
+    <Compile Include="FileScanner.cs" />
     <Compile Include="MessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +74,7 @@
       <DependentUpon>MessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="NDSFAT.cs" />
+    <Compile Include="NDSFile.cs" />
     <Compile Include="NDSFNT.cs" />
     <Compile Include="Renderer.cs">
       <SubType>Form</SubType>
