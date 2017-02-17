@@ -405,7 +405,6 @@ selection, as well as starting the unpacking process and catching any exceptions
 				{
 					// ... then append the folder name to the path to give us our new directory path.
 					path += "\\" + folder;
-					System.Console.WriteLine(path);
 				}
 
 				// If the folder already exists ... 
@@ -557,7 +556,7 @@ selection, as well as starting the unpacking process and catching any exceptions
 			*/
 			Control c = (Control)sender;
 			c.Enabled = false;
-			new Unpacker(file, path, false);
+			new Unpacker(file, path, true);
 		}
 	}
 }

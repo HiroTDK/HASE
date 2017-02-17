@@ -25,7 +25,7 @@ namespace HASE
 			}
 			if (debug)
 			{
-				System.Console.WriteLine("File Allocation Table [" + FileCount + " Files]\n");
+				System.Console.WriteLine("File Allocation Table [" + FileCount + " Files]");
 			}
 
 			FileStart = new uint[FileCount];
@@ -43,10 +43,11 @@ namespace HASE
 						System.Console.WriteLine("	File: " + i + "\n"
 							+ "		Length: " + (FileEnd[i] - FileStart[i]) + "\n"
 							+ "		Start: " + FileStart[i] + " (0x" + FileStart[i].ToString("X") + ")\n"
-							+ "		End: " + FileEnd[i] + " (0x" + FileEnd[i].ToString("X") + ")\n"
+							+ "		End: " + FileEnd[i] + " (0x" + FileEnd[i].ToString("X") + ")"
 							);
 					}
 				}
+				System.Console.WriteLine();
 			}
 		}
 

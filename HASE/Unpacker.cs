@@ -12,11 +12,11 @@ namespace HASE
 {
 	class Unpacker : HASE.BaseClass
 	{
-		public Unpacker(string file, string path, bool silent)
+		public Unpacker(string file, string path, bool debug)
 		{
 			if (!File.Exists(file))
 			{
-				if (!silent)
+				if (debug)
 				{
 					DialogResult result = CustomMessageBox.Show(
 						 "File Error",
@@ -36,7 +36,7 @@ namespace HASE
 				Directory.CreateDirectory(path);
 			}
 			
-			Unpack(file, path, silent);
+			Unpack(file, path, debug);
 		}
 		
 
@@ -46,9 +46,9 @@ namespace HASE
 
 		\**************************************************************************************************/
 
-		private void Unpack(string file, string path, bool silent)
+		private void Unpack(string file, string path, bool debug)
 		{
-			new FileScanner(file, path);
+			new FileScanner(file, path, debug);
 			
 			/*
 			// Throw the entire file into an array.

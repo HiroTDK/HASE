@@ -38,15 +38,17 @@ namespace HASE
 				InternalFlags = reader.ReadByte();
 				if (debug)
 				{
-					System.Console.WriteLine("GameTitle: " + GameTitle);
-					System.Console.WriteLine("GameCode: " + GameCode);
-					System.Console.WriteLine("MakerCode: " + MakerCode);
-					System.Console.WriteLine("UnitCode: " + UnitCode);
-					System.Console.WriteLine("EncryptionSeed: " + EncryptionSeed);
-					System.Console.WriteLine("DeviceCapaciy: " + DeviceCapaciy);
-					System.Console.WriteLine("RegionCode: " + RegionCode);
-					System.Console.WriteLine("Version: " + Version);
-					System.Console.WriteLine("InternalFlags: " + InternalFlags);
+					System.Console.WriteLine("Header");
+
+					System.Console.WriteLine("	GameTitle: " + GameTitle);
+					System.Console.WriteLine("	GameCode: " + GameCode);
+					System.Console.WriteLine("	MakerCode: " + MakerCode);
+					System.Console.WriteLine("	UnitCode: " + UnitCode);
+					System.Console.WriteLine("	EncryptionSeed: " + EncryptionSeed);
+					System.Console.WriteLine("	DeviceCapaciy: " + DeviceCapaciy);
+					System.Console.WriteLine("	RegionCode: " + RegionCode);
+					System.Console.WriteLine("	Version: " + Version);
+					System.Console.WriteLine("	InternalFlags: " + InternalFlags);
 				}
 
 
@@ -56,10 +58,10 @@ namespace HASE
 				ARM9Length = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("ARM9Offset: " + ARM9Offset);
-					System.Console.WriteLine("ARM9Entry: " + ARM9Entry);
-					System.Console.WriteLine("ARM9Load: " + ARM9Load);
-					System.Console.WriteLine("ARM9Length: " + ARM9Length);
+					System.Console.WriteLine("	ARM9Offset: " + ARM9Offset);
+					System.Console.WriteLine("	ARM9Entry: " + ARM9Entry);
+					System.Console.WriteLine("	ARM9Load: " + ARM9Load);
+					System.Console.WriteLine("	ARM9Length: " + ARM9Length);
 				}
 
 				ARM7Offset = reader.ReadUInt32();
@@ -68,10 +70,10 @@ namespace HASE
 				ARM7Length = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("ARM7Offset: " + ARM7Offset);
-					System.Console.WriteLine("ARM7Entry: " + ARM7Entry);
-					System.Console.WriteLine("ARM7Load: " + ARM7Load);
-					System.Console.WriteLine("ARM7Length: " + ARM7Length);
+					System.Console.WriteLine("	ARM7Offset: " + ARM7Offset);
+					System.Console.WriteLine("	ARM7Entry: " + ARM7Entry);
+					System.Console.WriteLine("	ARM7Load: " + ARM7Load);
+					System.Console.WriteLine("	ARM7Length: " + ARM7Length);
 				}
 
 
@@ -79,8 +81,8 @@ namespace HASE
 				FNTLength = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("FNTOffset: " + FNTOffset);
-					System.Console.WriteLine("FNTLength: " + FNTLength);
+					System.Console.WriteLine("	FNTOffset: " + FNTOffset);
+					System.Console.WriteLine("	FNTLength: " + FNTLength);
 				}
 
 
@@ -88,8 +90,8 @@ namespace HASE
 				FATLength = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("FATOffset: " + FATOffset);
-					System.Console.WriteLine("FATLength: " + FATLength);
+					System.Console.WriteLine("	FATOffset: " + FATOffset);
+					System.Console.WriteLine("	FATLength: " + FATLength);
 				}
 
 
@@ -97,8 +99,8 @@ namespace HASE
 				ARM9OverlayLength = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("ARM9OverlayOffset: " + ARM9OverlayOffset);
-					System.Console.WriteLine("ARM9OverlayLength: " + ARM9OverlayLength);
+					System.Console.WriteLine("	ARM9OverlayOffset: " + ARM9OverlayOffset);
+					System.Console.WriteLine("	ARM9OverlayLength: " + ARM9OverlayLength);
 				}
 
 
@@ -106,8 +108,8 @@ namespace HASE
 				ARM7OverlayLength = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("ARM7OverlayOffset: " + ARM7OverlayOffset);
-					System.Console.WriteLine("ARM7OverlayLength: " + ARM7OverlayLength);
+					System.Console.WriteLine("	ARM7OverlayOffset: " + ARM7OverlayOffset);
+					System.Console.WriteLine("	ARM7OverlayLength: " + ARM7OverlayLength);
 				}
 
 
@@ -115,15 +117,15 @@ namespace HASE
 				PortKEY1 = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("PortNormal: " + PortNormal);
-					System.Console.WriteLine("PortKEY1: " + PortKEY1);
+					System.Console.WriteLine("	PortNormal: " + PortNormal);
+					System.Console.WriteLine("	PortKEY1: " + PortKEY1);
 				}
 
 
 				IconOffset = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("IconOffset: " + IconOffset);
+					System.Console.WriteLine("	IconOffset: " + IconOffset);
 				}
 
 
@@ -131,8 +133,8 @@ namespace HASE
 				PortKEY1 = reader.ReadUInt16();
 				if (debug)
 				{
-					System.Console.WriteLine("SecureChecksum: " + SecureChecksum);
-					System.Console.WriteLine("SecureDelay: " + SecureDelay);
+					System.Console.WriteLine("	SecureChecksum: " + SecureChecksum);
+					System.Console.WriteLine("	SecureDelay: " + SecureDelay);
 				}
 
 
@@ -140,15 +142,15 @@ namespace HASE
 				ARM7AutoLoad = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("ARM9AutoLoad: " + ARM9AutoLoad);
-					System.Console.WriteLine("ARM7AutoLoad: " + ARM7AutoLoad);
+					System.Console.WriteLine("	ARM9AutoLoad: " + ARM9AutoLoad);
+					System.Console.WriteLine("	ARM7AutoLoad: " + ARM7AutoLoad);
 				}
 
 
 				SecureDisable = reader.ReadUInt64();
 				if (debug)
 				{
-					System.Console.WriteLine("SecureDisable: " + SecureDisable);
+					System.Console.WriteLine("	SecureDisable: " + SecureDisable);
 				}
 
 
@@ -156,9 +158,11 @@ namespace HASE
 				HeaderSize = reader.ReadUInt32();
 				if (debug)
 				{
-					System.Console.WriteLine("TotalSize: " + TotalSize);
-					System.Console.WriteLine("HeaderSize: " + HeaderSize);
+					System.Console.WriteLine("	TotalSize: " + TotalSize);
+					System.Console.WriteLine("	HeaderSize: " + HeaderSize);
+					System.Console.WriteLine();
 				}
+
 			}
 		}
 

@@ -14,35 +14,59 @@ namespace HASE
 		/// structure and assigns files to the folders by their IDs.
 		/// </summary>
 
-		public NDSFNT(Stream table, string parentName, uint fileCount, bool debug)
+		public NDSFNT(Stream table, string parentName, int fileCount, bool debug)
 		{
 			using (BinaryReader reader = new BinaryReader(table))
 			{
+				// Skip the first folder offset to get pertinent information first.
 				reader.BaseStream.Position = 4;
 				FirstFile = reader.ReadUInt16();
-				ushort folderCount = reader.ReadUInt16();
-								
-				Folders = new string[folderCount];
-				Folders[0] = "\\" + parentName;
+				FolderCount = reader.ReadUInt16();
 
-				Files = new string[fileCount];
+				// Initialize the Folders list, setup the root folder, and give each folder a default name and path.
+				Folders = new FNTFolder[FolderCount];
+				Folders[0] = new FNTFolder();
+				Folders[0].path = "\\" + parentName;
+				Folders[0].name = parentName;
+				for (int i = 1; i < FolderCount; i++)
+				{
+					Folders[i] = new FNTFolder();
+					string digits = i.ToString("D" + FolderCount.ToString().Length);
+					Folders[i].path = Folders[0].path + "\\" + digits;
+					Folders[i].name = digits;
+				}
+
+				// Initialize the Files list and give each file a default name and path.
+				Files = new FNTFile[fileCount];
 				for (int i = 0; i < fileCount; i++)
 				{
-					string digits = "D" + fileCount.ToString().Length;
-					Files[i] = i.ToString(digits);
+					Files[i] = new FNTFile();
+					string digits = i.ToString("D" + fileCount.ToString().Length);
+					Files[i].path = Folders[0].path + "\\" + digits;
+					Files[i].name = digits;
 				}
 				
-				uint[] offsets = new uint[folderCount];
-				ushort[] firstFiles = new ushort[folderCount];
+				// Initialize some arrays to keep track of offsets and first files for folders.
+				uint[] offsets = new uint[FolderCount];
+				ushort[] firstFiles = new ushort[FolderCount];
 				
-				for (int i = 0; i < folderCount; i++)
+				// Run through the directory list, record the offsets and first files, and folder to parent's FNTFolder list.
+				for (int i = 0; i < FolderCount; i++)
 				{
 					reader.BaseStream.Position = i * 8;
 					offsets[i] = reader.ReadUInt32();
 					firstFiles[i] = reader.ReadUInt16();
+
+					// First directory doesn't have a parent.
+					if (i > 0)
+					{
+						int parent = reader.ReadUInt16() - 61440;
+						Folders[i].parent = parent;
+						Folders[parent].folders.Add(i);
+					}
 				}
 
-				for (int i = 0; i < folderCount; i++)
+				for (int i = 0; i < FolderCount; i++)
 				{
 					reader.BaseStream.Position = offsets[i];
 					int f = firstFiles[i];
@@ -59,7 +83,11 @@ namespace HASE
 							byte[] nameArray = new byte[entryName];
 							reader.Read(nameArray, 0, entryName);
 							string name = System.Text.Encoding.UTF8.GetString(nameArray);
-							Files[f] = Folders[i] + "\\" + name;
+							Files[f] = new FNTFile();
+							Files[f].path = Folders[i].path + "\\" + name;
+							Files[f].name = name;
+							Files[f].parent = i;
+							Folders[i].files.Add(f);
 							f++;
 						}
 
@@ -71,29 +99,64 @@ namespace HASE
 							reader.Read(nameArray, 0, entryName);
 							string name = System.Text.Encoding.UTF8.GetString(nameArray);
 
-							ushort subFolder = reader.ReadUInt16();
-							subFolder -= 61440;
+							int subFolder = reader.ReadUInt16() - 61440;
 
-							Folders[subFolder] = Folders[i] + "\\" + name;
+							Folders[subFolder].path = Folders[i].path + "\\" + name;
+							Folders[subFolder].name = name;
 						}
 					}
 				}
 
 				if (debug)
 				{
-					foreach (string folder in Folders)
+					System.Console.WriteLine("File Name System\n" +
+						"	Folders [" + FolderCount + "]");
+
+					for (int i = 0; i < FolderCount; i++)
 					{
-						System.Console.WriteLine(folder);
+						FNTFolder f = Folders[i];
+						System.Console.WriteLine("		Folder: " + i + "\n" +
+							"			Name: " + f.name + "\n" +
+							"			Parent Folder: " + Folders[f.parent].name + "\n" +
+							"			Path: " + f.path);
+					}
+
+					System.Console.WriteLine("	Files [" + fileCount + "]");
+
+					for (int i = 0; i < fileCount; i++)
+					{
+						FNTFile f = Files[i];
+						System.Console.WriteLine("		File: " + i + "\n" +
+							"			Name: " + f.name + "\n" +
+							"			Parent Folder: " + Files[f.parent].name + "\n" +
+							"			Path: " + f.path);
 					}
 				}
 			}
 		}
-		
+
+		public ushort FolderCount;
 		public ushort FirstFile;
+		
+		public FNTFolder[] Folders;
+		public FNTFile[] Files;
 
-		public string[] Folders;
-		public string[] Files;
 
+	}
 
+	public class FNTFolder
+	{
+		public string name;
+		public string path;
+		public int parent;
+		public List<int> folders = new List<int>();
+		public List<int> files = new List<int>();
+	}
+
+	public class FNTFile
+	{
+		public string name;
+		public string path;
+		public int parent;
 	}
 }

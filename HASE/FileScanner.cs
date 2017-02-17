@@ -10,7 +10,7 @@ namespace HASE
 {
 	class FileScanner
 	{
-		public FileScanner(string ROM, string path)
+		public FileScanner(string ROM, string path, bool debug)
 		{
 			// Throw the entire file into an array.
 			byte[] bytes = File.ReadAllBytes(ROM);
@@ -24,8 +24,9 @@ namespace HASE
 
 			using (MemoryStream memoryStream = new MemoryStream(bytes, 0, 16384))
 			{
-				header = new NDSHeader(memoryStream, false);
+				header = new NDSHeader(memoryStream, debug);
 			}
+
 
 			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
 			         File Tables         
@@ -36,19 +37,29 @@ namespace HASE
 
 			using (MemoryStream memoryStream = new MemoryStream(bytes, Convert.ToInt32(header.FATOffset), Convert.ToInt32(header.FATLength)))
 			{
-				fat = new NDSFAT(memoryStream, false);
+				fat = new NDSFAT(memoryStream, debug);
 			}
 
 			using (MemoryStream memoryStream = new MemoryStream(bytes, Convert.ToInt32(header.FNTOffset), Convert.ToInt32(header.FNTLength)))
 			{
-				fnt = new NDSFNT(memoryStream, "File System", fat.FileCount, true);
+				fnt = new NDSFNT(memoryStream, "File System", Convert.ToInt32(fat.FileCount), debug);
+				/*
+				fnt.FolderCount++;
+				string[] newFolders = new string[fnt.FolderCount];
+				fnt.Folders.CopyTo(newFolders, 0);
+				newFolders[fnt.FolderCount - 1] = "\\Overlays";
+				fnt.Folders = newFolders;
+
+				for (int i = 0; i < fnt.FirstFile; i++)
+					fnt.Files[i] = "\\Overlays\\Overlay " + i + ".bin";
+				*/
 			}
-
-
+		
+				
 			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
 			         File Scanner         
 			\*--------------------------*/
-
+			/*
 
 			Folders = new List<string>();
 			
@@ -61,7 +72,7 @@ namespace HASE
 
 			for (int i = 0; i < fat.FileCount; i++)
 			{
-				NDSFile file = new NDSFile(bytes, path + fnt.Files[i], Convert.ToInt32(fat.FileStart[i]), Convert.ToInt32(fat.FileEnd[i] - fat.FileStart[i]), true);
+				NDSFile file = new NDSFile(bytes, path + fnt.Files[i], Convert.ToInt32(fat.FileStart[i]), Convert.ToInt32(fat.FileEnd[i] - fat.FileStart[i]), debug);
 				
 				if (file.extension == ".narc")
 				{
@@ -88,6 +99,7 @@ namespace HASE
 					writer.Write(bytes, file.start, file.length);
 				}
 			}
+			*/
 		}
 
 		public List<string> Folders;
