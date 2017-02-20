@@ -76,6 +76,7 @@
     <Compile Include="NDSFAT.cs" />
     <Compile Include="NDSFile.cs" />
     <Compile Include="NDSFNT.cs" />
+    <Compile Include="NDSNARC.cs" />
     <Compile Include="Renderer.cs">
       <SubType>Form</SubType>
     </Compile>

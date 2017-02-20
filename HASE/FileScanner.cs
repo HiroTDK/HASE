@@ -14,6 +14,7 @@ namespace HASE
 		{
 			// Throw the entire file into an array.
 			byte[] bytes = File.ReadAllBytes(ROM);
+			debug = false;
 
 
 			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
@@ -43,66 +44,70 @@ namespace HASE
 			using (MemoryStream memoryStream = new MemoryStream(bytes, Convert.ToInt32(header.FNTOffset), Convert.ToInt32(header.FNTLength)))
 			{
 				fnt = new NDSFNT(memoryStream, "File System", Convert.ToInt32(fat.FileCount), debug);
-				/*
-				fnt.FolderCount++;
-				string[] newFolders = new string[fnt.FolderCount];
-				fnt.Folders.CopyTo(newFolders, 0);
-				newFolders[fnt.FolderCount - 1] = "\\Overlays";
-				fnt.Folders = newFolders;
-
-				for (int i = 0; i < fnt.FirstFile; i++)
-					fnt.Files[i] = "\\Overlays\\Overlay " + i + ".bin";
-				*/
 			}
-		
-				
+
+
 			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
-			         File Scanner         
+			           Overlays           
 			\*--------------------------*/
-			/*
-
-			Folders = new List<string>();
 			
-			foreach (string s in fnt.Folders)
+			Folders.Add(new NDSFolder("\\Overlays", "Overlays", 0));
+		
+			for (int i = 0; i < fnt.FirstFile; i++)
 			{
-				Folders.Add(path + s);
+				fnt.Files[i].path = "\\Overlays\\Overlay " + i + ".bin";
+				fnt.Files[i].name = "Overlay " + i + ".bin";
 			}
 
-			Files = new List<NDSFile>();
+
+			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
+			          Get Files          
+			\*--------------------------*/
+
+			List<NDSFile> narcs = new List<NDSFile>();
+
+			foreach (NDSFolder f in fnt.Folders)
+			{
+				Folders.Add(f);
+			}
 
 			for (int i = 0; i < fat.FileCount; i++)
 			{
-				NDSFile file = new NDSFile(bytes, path + fnt.Files[i], Convert.ToInt32(fat.FileStart[i]), Convert.ToInt32(fat.FileEnd[i] - fat.FileStart[i]), debug);
-				
-				if (file.extension == ".narc")
+				NDSFile f = fnt.Files[i];
+				f.SetOffsets(fat.FileStart[i], fat.FileEnd[i]);
+				f.GetExtension(bytes);
+				if (f.extension == ".narc")
 				{
-
+					narcs.Add(f);
 				}
 				else
 				{
-					Files.Add(file);
-				}
-			}
-			
-			foreach (string folder in Folders)
-			{
-				if (!Directory.Exists(folder))
-				{
-					Directory.CreateDirectory(folder);
+					Files.Add(f);
 				}
 			}
 
-			foreach (NDSFile file in Files)
+			fat.Dispose();
+			fnt.Dispose();
+			
+
+			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
+			          NARC Files         
+			\*--------------------------*/
+			
+			foreach (NDSFile f in narcs)
 			{
-				using (BinaryWriter writer = new BinaryWriter(File.Open(file.path + file.extension, FileMode.Create)))
-				{
-					writer.Write(bytes, file.start, file.length);
-				}
+				NDSNARC narcFile = new NDSNARC(bytes, f);
+
+				Folders.Add(new NDSFolder(f.path, f.name, f.parent));
 			}
-			*/
+
+
+
+
+
 		}
 
-		public List<string> Folders;
-		public List<NDSFile> Files;
+		public List<NDSFolder> Folders = new List<NDSFolder>();
+		public List<NDSFile> Files = new List<NDSFile>();
 	}
 }

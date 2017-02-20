@@ -24,33 +24,29 @@ namespace HASE
 				FolderCount = reader.ReadUInt16();
 
 				// Initialize the Folders list, setup the root folder, and give each folder a default name and path.
-				Folders = new FNTFolder[FolderCount];
-				Folders[0] = new FNTFolder();
-				Folders[0].path = "\\" + parentName;
-				Folders[0].name = parentName;
+				Folders = new NDSFolder[FolderCount];
+				Folders[0] = new NDSFolder("\\" + parentName, parentName, 0);
 				for (int i = 1; i < FolderCount; i++)
 				{
-					Folders[i] = new FNTFolder();
 					string digits = i.ToString("D" + FolderCount.ToString().Length);
-					Folders[i].path = Folders[0].path + "\\" + digits;
-					Folders[i].name = digits;
+
+					Folders[i] = new NDSFolder(Folders[0].path + "\\" + digits, digits, 0);
 				}
 
 				// Initialize the Files list and give each file a default name and path.
-				Files = new FNTFile[fileCount];
+				Files = new NDSFile[fileCount];
 				for (int i = 0; i < fileCount; i++)
 				{
-					Files[i] = new FNTFile();
 					string digits = i.ToString("D" + fileCount.ToString().Length);
-					Files[i].path = Folders[0].path + "\\" + digits;
-					Files[i].name = digits;
+
+					Files[i] = new NDSFile(Folders[0].path + "\\" + digits, digits, 0);
 				}
 				
 				// Initialize some arrays to keep track of offsets and first files for folders.
 				uint[] offsets = new uint[FolderCount];
 				ushort[] firstFiles = new ushort[FolderCount];
 				
-				// Run through the directory list, record the offsets and first files, and folder to parent's FNTFolder list.
+				// Run through the directory list, record the offsets and first files, and folder to parent's NDSFolder list.
 				for (int i = 0; i < FolderCount; i++)
 				{
 					reader.BaseStream.Position = i * 8;
@@ -66,31 +62,39 @@ namespace HASE
 					}
 				}
 
+				// Now we run through the files and sub-directories list and assign names.
 				for (int i = 0; i < FolderCount; i++)
 				{
 					reader.BaseStream.Position = offsets[i];
 					int f = firstFiles[i];
+
 					while (true)
 					{
+						// First byte detrmines length of entry.
 						byte entryName = reader.ReadByte();
+
+						// 00 indicates no more names in the list.
 						if (entryName == 0)
 						{
 							break;
 						}
 
+						// The most significant bit in the byte indicates either a directory (1) or a file (0).
+						// Since it's the most significant, that puts the dilimiter at 128 or 0x80.
+
+						// Most significant bit being 0— the byte being less than 128— indicates a file.
 						if (entryName < 128)
 						{
 							byte[] nameArray = new byte[entryName];
 							reader.Read(nameArray, 0, entryName);
 							string name = System.Text.Encoding.UTF8.GetString(nameArray);
-							Files[f] = new FNTFile();
-							Files[f].path = Folders[i].path + "\\" + name;
-							Files[f].name = name;
-							Files[f].parent = i;
+
+							Files[f] = new NDSFile(Folders[i].path + "\\" + name, name, i);
 							Folders[i].files.Add(f);
 							f++;
 						}
 
+						// Most significant bit being 1— the byte being at least 128— indicates a folder.
 						else
 						{
 							entryName -= 128;
@@ -101,12 +105,12 @@ namespace HASE
 
 							int subFolder = reader.ReadUInt16() - 61440;
 
-							Folders[subFolder].path = Folders[i].path + "\\" + name;
-							Folders[subFolder].name = name;
+							Folders[subFolder] = new NDSFolder(Folders[i].path + "\\" + name, name, i);
 						}
 					}
 				}
 
+				
 				if (debug)
 				{
 					System.Console.WriteLine("File Name System\n" +
@@ -114,7 +118,7 @@ namespace HASE
 
 					for (int i = 0; i < FolderCount; i++)
 					{
-						FNTFolder f = Folders[i];
+						NDSFolder f = Folders[i];
 						System.Console.WriteLine("		Folder: " + i + "\n" +
 							"			Name: " + f.name + "\n" +
 							"			Parent Folder: " + Folders[f.parent].name + "\n" +
@@ -125,10 +129,10 @@ namespace HASE
 
 					for (int i = 0; i < fileCount; i++)
 					{
-						FNTFile f = Files[i];
+						NDSFile f = Files[i];
 						System.Console.WriteLine("		File: " + i + "\n" +
 							"			Name: " + f.name + "\n" +
-							"			Parent Folder: " + Files[f.parent].name + "\n" +
+							"			Parent Folder: " + Folders[f.parent].name + "\n" +
 							"			Path: " + f.path);
 					}
 				}
@@ -138,25 +142,7 @@ namespace HASE
 		public ushort FolderCount;
 		public ushort FirstFile;
 		
-		public FNTFolder[] Folders;
-		public FNTFile[] Files;
-
-
-	}
-
-	public class FNTFolder
-	{
-		public string name;
-		public string path;
-		public int parent;
-		public List<int> folders = new List<int>();
-		public List<int> files = new List<int>();
-	}
-
-	public class FNTFile
-	{
-		public string name;
-		public string path;
-		public int parent;
+		public NDSFolder[] Folders;
+		public NDSFile[] Files;
 	}
 }
