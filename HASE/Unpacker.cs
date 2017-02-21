@@ -49,7 +49,7 @@ namespace HASE
 		private void Unpack(string file, string path, bool debug)
 		{
 			new FileScanner(file, path, debug);
-			
+
 			/*
 			// Throw the entire file into an array.
 			byte[] bytes = File.ReadAllBytes(file);
@@ -95,7 +95,7 @@ namespace HASE
 			/*¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯*\
 			             ARM7             
 			\*--------------------------/
-
+			
 			using (BinaryWriter writer = new BinaryWriter(File.Open(path + "\\ARM7.bin", FileMode.Create)))
 			{
 				writer.Write(bytes, Convert.ToInt32(header.ARM7Offset), Convert.ToInt32(header.ARM7Length));
@@ -115,7 +115,7 @@ namespace HASE
 			{
 				writer.Write(bytes, Convert.ToInt32(header.ARM9OverlayOffset), Convert.ToInt32(header.ARM9OverlayLength));
 			}
-/*
+
 			using (BinaryWriter writer = new BinaryWriter(File.Open(path + "\\Banner.banner", FileMode.Create)))
 			{
 				writer.Write(bytes, Convert.ToInt32(header.IconOffset), Convert.ToInt32(header.HeaderSize));

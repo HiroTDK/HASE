@@ -25,12 +25,12 @@ namespace HASE
 
 				// Initialize the Folders list, setup the root folder, and give each folder a default name and path.
 				Folders = new NDSFolder[FolderCount];
-				Folders[0] = new NDSFolder("\\" + parentName, parentName, 0);
+				Folders[0] = new NDSFolder("", parentName, 0);
 				for (int i = 1; i < FolderCount; i++)
 				{
 					string digits = i.ToString("D" + FolderCount.ToString().Length);
 
-					Folders[i] = new NDSFolder(Folders[0].path + "\\" + digits, digits, 0);
+					Folders[i] = new NDSFolder(Folders[0].name, digits, 0);
 				}
 
 				// Initialize the Files list and give each file a default name and path.
@@ -39,7 +39,7 @@ namespace HASE
 				{
 					string digits = i.ToString("D" + fileCount.ToString().Length);
 
-					Files[i] = new NDSFile(Folders[0].path + "\\" + digits, digits, 0);
+					Files[i] = new NDSFile(Folders[0].name, digits, 0);
 				}
 				
 				// Initialize some arrays to keep track of offsets and first files for folders.
@@ -89,7 +89,7 @@ namespace HASE
 							reader.Read(nameArray, 0, entryName);
 							string name = System.Text.Encoding.UTF8.GetString(nameArray);
 
-							Files[f] = new NDSFile(Folders[i].path + "\\" + name, name, i);
+							Files[f] = new NDSFile(Folders[i].path + Folders[i].name, name, i);
 							Folders[i].files.Add(f);
 							f++;
 						}
@@ -105,11 +105,11 @@ namespace HASE
 
 							int subFolder = reader.ReadUInt16() - 61440;
 
-							Folders[subFolder] = new NDSFolder(Folders[i].path + "\\" + name, name, i);
+							Folders[subFolder] = new NDSFolder(Folders[i].path + Folders[i].name, name, i);
 						}
 					}
 				}
-
+				
 				
 				if (debug)
 				{

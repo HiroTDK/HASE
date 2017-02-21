@@ -19,6 +19,11 @@ namespace HASE
 			path = p;
 			name = n;
 			parent = i;
+
+			if (p.Length < 1 || p.LastIndexOf("\\") != p.Length - 1)
+			{
+				path += "\\";
+			}
 		}
 
 		public string name;
@@ -40,6 +45,11 @@ namespace HASE
 			path = p;
 			name = n;
 			parent = i;
+
+			if (p.Length < 1 || p.LastIndexOf("\\") != p.Length - 1)
+			{
+				path += "\\";
+			}
 		}
 
 		public void SetOffsets(uint start, uint end)
@@ -130,15 +140,14 @@ namespace HASE
 				extension = ".txt";
 			}
 
-			if (extension.Length > 0 && name.Length > extension.Length && path.Length > extension.Length)
+			if (extension.Length > 0 && name.Length > extension.Length)
 			{
 				int nLength = name.Length - extension.Length;
 				string nSub = name.Substring(nLength);
 
-				if (nSub != extension && nSub != extension.ToUpper())
+				if (nSub == extension || nSub == extension.ToUpper())
 				{
-					name += extension;
-					path += extension;
+					name = name.Remove(nLength);
 				}
 			}
 		}

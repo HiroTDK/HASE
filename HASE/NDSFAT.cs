@@ -47,7 +47,10 @@ namespace HASE
 							);
 					}
 				}
-				System.Console.WriteLine();
+				if (debug)
+				{
+					System.Console.WriteLine();
+				}
 			}
 		}
 

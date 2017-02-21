@@ -527,7 +527,9 @@ selection, as well as starting the unpacking process and catching any exceptions
 
 				return;
 			}
-			/*
+
+			button3.Enabled = false;
+
 			try
 			{
 				new Unpacker(file, path, false);
@@ -553,10 +555,15 @@ selection, as well as starting the unpacking process and catching any exceptions
 
 				return;
 			}
-			*/
-			Control c = (Control)sender;
-			c.Enabled = false;
-			new Unpacker(file, path, true);
+
+			file = null;
+			path = null;
+
+			label2.Text = "";
+			label4.Text = "";
+
+			label4.Enabled = false;
+			button2.Enabled = false;
 		}
 	}
 }
